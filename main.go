@@ -6,6 +6,8 @@ import (
 	"os"
 
 	"github.com/urfave/cli/v2"
+
+	"github.com/Sochi115/library-cli/info"
 )
 
 func main() {
@@ -71,7 +73,7 @@ func main() {
 					author := ctx.String("author")
 
 					if len(book) > 0 {
-						fmt.Println(book)
+						info.GetBookByTitle(book)
 					}
 
 					if len(isbn) > 0 {
