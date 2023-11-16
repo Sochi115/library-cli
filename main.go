@@ -21,7 +21,7 @@ func main() {
 	isbnFlag := &cli.StringFlag{
 		Name:    "isbn",
 		Aliases: []string{"i"},
-		Usage:   "Specifies isbn name `ISBN`",
+		Usage:   "Specifies isbn number `ISBN`",
 	}
 
 	authorFlag := &cli.StringFlag{
@@ -37,6 +37,29 @@ func main() {
 			{
 				Name:  "save",
 				Usage: "Saves book",
+				Flags: []cli.Flag{
+					bookFlag,
+					isbnFlag,
+				},
+				Action: func(ctx *cli.Context) error {
+					book := ctx.String("book")
+					isbn := ctx.String("isbn")
+
+					if len(book) > 0 {
+						fmt.Println(book)
+					}
+
+					if len(isbn) > 0 {
+						fmt.Println(isbn)
+					}
+
+					fmt.Print("Default save")
+					return nil
+				},
+			},
+			{
+				Name:  "info",
+				Usage: "Retrieves data of book or author",
 				Flags: []cli.Flag{
 					bookFlag,
 					isbnFlag,
@@ -58,7 +81,8 @@ func main() {
 					if len(author) > 0 {
 						fmt.Println(author)
 					}
-					fmt.Print("Default")
+
+					fmt.Print("Default info")
 					return nil
 				},
 			},
