@@ -1,8 +1,8 @@
 package info
 
 import (
+	"encoding/json"
 	"fmt"
-	"io"
 	"log"
 	"net/http"
 	"strings"
@@ -28,10 +28,10 @@ func GetBookByTitle(title string) {
 	}
 	defer res.Body.Close()
 
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		log.Fatal(err)
-	}
+	books := OpenLibraryApiResponse{}
 
-	fmt.Println(string(body))
+	fmt.Println("Decoding json")
+	json.NewDecoder(res.Body).Decode(&books)
+
+	fmt.Println(books.Docs[2])
 }
