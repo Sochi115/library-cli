@@ -64,30 +64,34 @@ func main() {
 				Usage: "Retrieves data of book or author",
 				Flags: []cli.Flag{
 					bookFlag,
-					isbnFlag,
 					authorFlag,
+				},
+				SkipFlagParsing: false,
+				OnUsageError: func(cCtx *cli.Context, err error, isSubcommand bool) error {
+					if isSubcommand {
+						return err
+					}
+					fmt.Fprintf(cCtx.App.Writer, "Usage error")
+					return err
 				},
 				Action: func(ctx *cli.Context) error {
 					book := ctx.String("book")
-					isbn := ctx.String("isbn")
 					author := ctx.String("author")
 
 					if len(book) > 0 {
-						info.GetBookByTitle(book)
-						return nil
-					}
-
-					if len(isbn) > 0 {
-						fmt.Println(isbn)
+						info.GetBookDataByTitle(book)
 						return nil
 					}
 
 					if len(author) > 0 {
-						fmt.Println(author)
+						info.GetAuthorData(author)
 						return nil
 					}
 
-					fmt.Fprintln(os.Stderr, "Missing flag")
+					fmt.Fprintln(
+						os.Stderr,
+						"No valid command options detected\nSee `library-cli search --help` for a usage guide",
+					)
 					return nil
 				},
 			},

@@ -42,7 +42,24 @@ func handleFatalErr(err error) {
 	}
 }
 
+func longStringToMultiline(text string) string {
+	tokens := strings.Split(strings.TrimSpace(text), " ")
+	result := ""
+	for i := range tokens {
+		result += tokens[i]
+		result += " "
+		if (i+1)%5 == 0 {
+			result += "\n"
+		}
+	}
+	return result
+}
+
 func writeToConsole(msg string) {
 	io.WriteString(os.Stdout, msg)
 	io.WriteString(os.Stdout, "\n")
+}
+
+func intSliceToString(arr []int) string {
+	return strings.Trim(strings.Join(strings.Fields(fmt.Sprint(arr)), ","), "[]")
 }

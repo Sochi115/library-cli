@@ -7,7 +7,7 @@ type BookInfo struct {
 	Authors     []string `json:"author_name"`
 }
 
-type OpenLibraryApiResponse struct {
+type ApiSearchResponse struct {
 	ResultCount int        `json:"num_found"`
 	Docs        []BookInfo `json:"docs"`
 }
