@@ -60,7 +60,7 @@ func main() {
 				},
 			},
 			{
-				Name:  "info",
+				Name:  "search",
 				Usage: "Retrieves data of book or author",
 				Flags: []cli.Flag{
 					bookFlag,
