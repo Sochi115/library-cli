@@ -9,5 +9,6 @@ type BookInfo struct {
 }
 
 type OpenLibraryApiResponse struct {
-	Docs []BookInfo `json:"docs"`
+	ResultCount int        `json:"num_found"`
+	Docs        []BookInfo `json:"docs"`
 }
