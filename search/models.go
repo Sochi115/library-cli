@@ -1,4 +1,4 @@
-package info
+package search
 
 type BookInfo struct {
 	Title       string   `json:"title"`

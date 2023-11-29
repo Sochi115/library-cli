@@ -7,7 +7,7 @@ import (
 
 	"github.com/urfave/cli/v2"
 
-	"github.com/Sochi115/library-cli/info"
+	"github.com/Sochi115/library-cli/search"
 )
 
 func main() {
@@ -79,12 +79,12 @@ func main() {
 					author := ctx.String("author")
 
 					if len(book) > 0 {
-						info.GetBookDataByTitle(book)
+						search.GetBookDataByTitle(book)
 						return nil
 					}
 
 					if len(author) > 0 {
-						info.GetAuthorData(author)
+						search.GetAuthorData(author)
 						return nil
 					}
 
