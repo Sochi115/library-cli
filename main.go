@@ -74,17 +74,20 @@ func main() {
 
 					if len(book) > 0 {
 						info.GetBookByTitle(book)
+						return nil
 					}
 
 					if len(isbn) > 0 {
 						fmt.Println(isbn)
+						return nil
 					}
 
 					if len(author) > 0 {
 						fmt.Println(author)
+						return nil
 					}
 
-					fmt.Print("Default info")
+					fmt.Fprintln(os.Stderr, "Missing flag")
 					return nil
 				},
 			},

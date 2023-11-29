@@ -18,10 +18,10 @@ func GetBookByTitle(title string) {
 	apiGetRequest(api, &books)
 
 	fmt.Println(books.ResultCount)
-	printTable(books)
+	printBookTable(books)
 }
 
-func printTable(booksData OpenLibraryApiResponse) {
+func printBookTable(booksData OpenLibraryApiResponse) {
 	table := simpletable.New()
 
 	table.Header = &simpletable.Header{
@@ -29,6 +29,7 @@ func printTable(booksData OpenLibraryApiResponse) {
 			{Align: simpletable.AlignCenter, Text: "Title"},
 			{Align: simpletable.AlignCenter, Text: "Author(s)"},
 			{Align: simpletable.AlignCenter, Text: "ISBN"},
+			{Align: simpletable.AlignCenter, Text: "Years Published"},
 		},
 	}
 
@@ -40,12 +41,14 @@ func printTable(booksData OpenLibraryApiResponse) {
 			{Align: simpletable.AlignRight, Text: b.Title},
 			{Align: simpletable.AlignRight, Text: strings.Join(b.Authors, ", ")},
 			{Align: simpletable.AlignRight, Text: strings.Join(b.Isbn, ", ")},
+			{Align: simpletable.AlignRight, Text: intSliceToString(b.PublishYear)},
 		}
 		table.Body.Cells = append(table.Body.Cells, row)
 	}
 
 	table.Footer = &simpletable.Footer{
 		Cells: []*simpletable.Cell{
+			{},
 			{},
 			{Align: simpletable.AlignRight, Text: "Result Count"},
 			{Align: simpletable.AlignRight, Text: fmt.Sprintf("%d", booksData.ResultCount)},
@@ -55,4 +58,8 @@ func printTable(booksData OpenLibraryApiResponse) {
 	table.SetStyle(simpletable.StyleCompactLite)
 
 	writeToConsole(table.String())
+}
+
+func intSliceToString(arr []int) string {
+	return strings.Trim(strings.Join(strings.Fields(fmt.Sprint(arr)), ","), "[]")
 }
