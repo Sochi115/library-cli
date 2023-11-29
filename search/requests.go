@@ -1,34 +1,28 @@
 package search
 
-import (
-	"fmt"
-)
-
 var (
-	apiBase       string = "https://openlibrary.org/search.json?"
-	titleApiBase  string = apiBase + "title="
-	authorApiBase string = apiBase + "author="
-	apiFields     string = "&limit=25&language=eng"
+	apiBaseUrl   string = "https://openlibrary.org/search.json?"
+	titleApiUrl  string = apiBaseUrl + "title="
+	authorApiUrl string = apiBaseUrl + "author="
+	apiFields    string = "&limit=25&language=eng"
 )
 
 func GetBookDataByTitle(title string) {
 	queryString := parseInputQuery(title)
-	api := titleApiBase + queryString + apiFields
+	apiUrl := titleApiUrl + queryString + apiFields
 	books := ApiSearchResponse{}
 
-	apiGetRequest(api, &books)
+	apiGetRequest(apiUrl, &books)
 
-	fmt.Println(books.ResultCount)
 	printBookTable(books)
 }
 
 func GetAuthorData(author string) {
 	queryString := parseInputQuery(author)
-	api := authorApiBase + queryString + apiFields
+	apiUrl := authorApiUrl + queryString + apiFields
 	books := ApiSearchResponse{}
 
-	apiGetRequest(api, &books)
+	apiGetRequest(apiUrl, &books)
 
-	fmt.Println(books.ResultCount)
 	printBookTable(books)
 }

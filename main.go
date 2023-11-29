@@ -79,11 +79,13 @@ func main() {
 					author := ctx.String("author")
 
 					if len(book) > 0 {
+						fmt.Println("Searching for titles:", book)
 						search.GetBookDataByTitle(book)
 						return nil
 					}
 
 					if len(author) > 0 {
+						fmt.Println("Searching for authors:", author)
 						search.GetAuthorData(author)
 						return nil
 					}
