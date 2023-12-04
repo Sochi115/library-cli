@@ -5,9 +5,11 @@ import (
 	"strings"
 
 	"github.com/alexeyco/simpletable"
+
+	"github.com/Sochi115/library-cli/helper"
 )
 
-func printBookTable(booksData ApiSearchResponse) {
+func printBookTable(booksData SearchResponseObject) {
 	table := simpletable.New()
 
 	table.Header = &simpletable.Header{
@@ -49,5 +51,5 @@ func printBookTable(booksData ApiSearchResponse) {
 
 	table.SetStyle(simpletable.StyleUnicode)
 
-	writeToConsole(table.String())
+	helper.WriteStringToConsole(table.String())
 }

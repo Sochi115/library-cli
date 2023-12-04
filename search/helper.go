@@ -1,27 +1,9 @@
 package search
 
 import (
-	"encoding/json"
 	"fmt"
-	"io"
-	"log"
-	"net/http"
-	"os"
 	"strings"
 )
-
-func apiGetRequest(url string, responseObject interface{}) {
-	msgString := fmt.Sprintf("Performing GET %s ...", url)
-	writeToConsole(msgString)
-
-	resp, err := http.Get(url)
-	handleFatalErr(err)
-
-	defer resp.Body.Close()
-
-	writeToConsole("Decoding response JSON...")
-	json.NewDecoder(resp.Body).Decode(responseObject)
-}
 
 func parseInputQuery(query string) string {
 	tokens := strings.Split(strings.TrimSpace(query), " ")
@@ -36,12 +18,6 @@ func parseInputQuery(query string) string {
 	return queryString
 }
 
-func handleFatalErr(err error) {
-	if err != nil {
-		log.Fatal(err)
-	}
-}
-
 func longStringToMultiline(text string) string {
 	tokens := strings.Split(strings.TrimSpace(text), " ")
 	result := ""
@@ -53,11 +29,6 @@ func longStringToMultiline(text string) string {
 		}
 	}
 	return result
-}
-
-func writeToConsole(msg string) {
-	io.WriteString(os.Stdout, msg)
-	io.WriteString(os.Stdout, "\n")
 }
 
 func intSliceToString(arr []int) string {
