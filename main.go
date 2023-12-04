@@ -7,6 +7,7 @@ import (
 
 	"github.com/urfave/cli/v2"
 
+	"github.com/Sochi115/library-cli/save"
 	"github.com/Sochi115/library-cli/search"
 )
 
@@ -52,7 +53,7 @@ func main() {
 					}
 
 					if len(isbn) > 0 {
-						fmt.Println(isbn)
+						fmt.Println(save.GetIsbnData(isbn))
 					}
 
 					fmt.Print("Default save")

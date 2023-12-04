@@ -37,7 +37,10 @@ func printBookTable(booksData SearchResponseObject) {
 				Align: simpletable.AlignRight,
 				Text:  longStringToMultiline(strings.Join(b.Isbn, ", ")),
 			},
-			{Align: simpletable.AlignRight, Text: intSliceToString(b.PublishYear)},
+			{
+				Align: simpletable.AlignRight,
+				Text:  longStringToMultiline(intSliceToString(b.PublishYear)),
+			},
 		}
 		table.Body.Cells = append(table.Body.Cells, row)
 	}

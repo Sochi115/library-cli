@@ -32,5 +32,5 @@ func longStringToMultiline(text string) string {
 }
 
 func intSliceToString(arr []int) string {
-	return strings.Trim(strings.Join(strings.Fields(fmt.Sprint(arr)), ","), "[]")
+	return strings.Trim(strings.Join(strings.Fields(fmt.Sprint(arr)), ", "), "[]")
 }
