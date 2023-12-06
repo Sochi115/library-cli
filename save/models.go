@@ -1,9 +1,20 @@
 package save
 
-type IsbnResponseObject struct {
+type BookMetaData struct {
 	Key           string   `json:"key"`
 	Title         string   `json:"title"`
-	NumberOfPages int      `json:"number_of_pages"`
+	Authors       []string `json:"-"`
 	Isbn13        []string `json:"isbn_13"`
 	Isbn10        []string `json:"isbn_10"`
+	Publishers    []string `json:"-"`
+	PublishDate   string   `json:"-"`
+	NumberOfPages int      `json:"number_of_pages"`
+}
+
+type WorksResponseObject struct {
+	Authors []map[string]string `json:"authors"`
+}
+
+type AuthorsResponseObject struct {
+	Name string `json:"name"`
 }

@@ -53,7 +53,7 @@ func main() {
 					}
 
 					if len(isbn) > 0 {
-						fmt.Println(save.GetIsbnData(isbn))
+						save.HandleSaveBookByIsbn(isbn)
 					}
 
 					fmt.Print("Default save")
