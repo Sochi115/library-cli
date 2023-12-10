@@ -1,6 +1,6 @@
 package save
 
-type BookMetaData struct {
+type BookData struct {
 	Key           string   `json:"key"`
 	Title         string   `json:"title"`
 	Authors       []string `json:"-"`
@@ -9,6 +9,7 @@ type BookMetaData struct {
 	Publishers    []string `json:"-"`
 	PublishDate   string   `json:"-"`
 	NumberOfPages int      `json:"number_of_pages"`
+	Rating        int      `json:"-"`
 }
 
 type WorksResponseObject struct {

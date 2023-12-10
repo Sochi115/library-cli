@@ -1,21 +1,23 @@
 package save
 
 import (
-	"fmt"
+	"strings"
 
+	"github.com/Sochi115/library-cli/db"
 	"github.com/Sochi115/library-cli/helper"
 )
 
 var baseApiUrl = "https://openlibrary.org"
 
-var bookMetaData = BookMetaData{}
+var bookMetaData = BookData{}
 
-func HandleSaveBookByIsbn(isbn string) {
+func HandleSaveBookByIsbn(isbn string) db.BookEntry {
 	GetIsbnData(isbn)
 	authorKeys := GetBookDataByWorks(bookMetaData.Key)
 	GetAuthors(authorKeys)
 
-	fmt.Println(bookMetaData)
+	// fmt.Println(bookMetaData)
+	return convertBookDataToBookEntry()
 }
 
 func GetIsbnData(isbn string) {
@@ -41,4 +43,18 @@ func GetAuthors(authorKeys []map[string]string) {
 	}
 
 	bookMetaData.Authors = authorList
+}
+
+func convertBookDataToBookEntry() db.BookEntry {
+	return db.BookEntry{
+		Key:           bookMetaData.Key,
+		Title:         bookMetaData.Title,
+		Authors:       strings.Join(bookMetaData.Authors, ", "),
+		Isbn13:        strings.Join(bookMetaData.Isbn13, ", "),
+		Isbn10:        strings.Join(bookMetaData.Isbn10, ", "),
+		Publishers:    strings.Join(bookMetaData.Publishers, ", "),
+		PublishDate:   bookMetaData.PublishDate,
+		NumberOfPages: bookMetaData.NumberOfPages,
+		Rating:        bookMetaData.Rating,
+	}
 }

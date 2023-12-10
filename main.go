@@ -7,11 +7,21 @@ import (
 
 	"github.com/urfave/cli/v2"
 
+	"github.com/Sochi115/library-cli/db"
 	"github.com/Sochi115/library-cli/save"
 	"github.com/Sochi115/library-cli/search"
 )
 
 func main() {
+	dirname, err := os.UserHomeDir()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	sqliteDb := db.ConnectToSqliteDb(dirname + "\\library_cli.db")
+	sqliteDb.InitBookTable()
+	defer sqliteDb.CloseDb()
+
 	var listFlag string
 	var id int
 
@@ -53,7 +63,8 @@ func main() {
 					}
 
 					if len(isbn) > 0 {
-						save.HandleSaveBookByIsbn(isbn)
+						book := save.HandleSaveBookByIsbn(isbn)
+						sqliteDb.AddBook(book)
 					}
 
 					fmt.Print("Default save")
@@ -126,8 +137,13 @@ func main() {
 				Destination: &id,
 			},
 		},
-		Action: func(*cli.Context) error {
+		Action: func(ctx *cli.Context) error {
 			fmt.Println("Hello World")
+			if ctx.String("list") == "all" {
+				sqliteDb.FetchAll()
+				return nil
+			}
+			// sqliteDb.FetchAll()
 			return nil
 		},
 	}
