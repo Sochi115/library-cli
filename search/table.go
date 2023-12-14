@@ -23,23 +23,20 @@ func printBookTable(booksData SearchResponseObject) {
 	}
 
 	for i, b := range booksData.Docs {
-		if len(b.Isbn) > 2 {
-			b.Isbn = b.Isbn[:2]
-		}
 		row := []*simpletable.Cell{
 			{Align: simpletable.AlignRight, Text: fmt.Sprintf("%d", i+1)},
-			{Align: simpletable.AlignRight, Text: longStringToMultiline(b.Title)},
+			{Align: simpletable.AlignRight, Text: longStringToMultiline(b.Title, 5)},
 			{
 				Align: simpletable.AlignRight,
-				Text:  longStringToMultiline(strings.Join(b.Authors, ", ")),
+				Text:  longStringToMultiline(strings.Join(b.Authors, ", "), 2),
 			},
 			{
 				Align: simpletable.AlignRight,
-				Text:  longStringToMultiline(strings.Join(b.Isbn, ", ")),
+				Text:  longStringToMultiline(strings.Join(b.Isbn, ", "), 2),
 			},
 			{
 				Align: simpletable.AlignRight,
-				Text:  longStringToMultiline(intSliceToString(b.PublishYear)),
+				Text:  longStringToMultiline(intSliceToString(b.PublishYear), 3),
 			},
 		}
 		table.Body.Cells = append(table.Body.Cells, row)

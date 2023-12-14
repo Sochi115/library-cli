@@ -18,13 +18,13 @@ func parseInputQuery(query string) string {
 	return queryString
 }
 
-func longStringToMultiline(text string) string {
+func longStringToMultiline(text string, tokensPerLine int) string {
 	tokens := strings.Split(strings.TrimSpace(text), " ")
 	result := ""
 	for i := range tokens {
 		result += tokens[i]
 		result += " "
-		if (i+1)%5 == 0 {
+		if (i+1)%tokensPerLine == 0 {
 			result += "\n"
 		}
 	}
