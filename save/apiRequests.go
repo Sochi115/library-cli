@@ -12,20 +12,19 @@ var baseApiUrl = "https://openlibrary.org"
 var bookMetaData = BookData{}
 
 func HandleSaveBookByIsbn(isbn string) db.BookEntry {
-	GetIsbnData(isbn)
-	authorKeys := GetBookDataByWorks(bookMetaData.Key)
-	GetAuthors(authorKeys)
+	getIsbnData(isbn)
+	authorKeys := getBookDataByWorks(bookMetaData.Key)
+	getAuthors(authorKeys)
 
-	// fmt.Println(bookMetaData)
 	return convertBookDataToBookEntry()
 }
 
-func GetIsbnData(isbn string) {
+func getIsbnData(isbn string) {
 	helper.ApiGetRequest(baseApiUrl+"/isbn/"+isbn+".json",
 		&bookMetaData)
 }
 
-func GetBookDataByWorks(works string) []map[string]string {
+func getBookDataByWorks(works string) []map[string]string {
 	responseObject := WorksResponseObject{}
 
 	helper.ApiGetRequest(baseApiUrl+works+".json", &responseObject)
@@ -33,7 +32,7 @@ func GetBookDataByWorks(works string) []map[string]string {
 	return responseObject.Authors
 }
 
-func GetAuthors(authorKeys []map[string]string) {
+func getAuthors(authorKeys []map[string]string) {
 	var authorList []string
 	for _, a := range authorKeys {
 		responseObject := AuthorsResponseObject{}

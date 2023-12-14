@@ -143,7 +143,6 @@ func main() {
 				sqliteDb.FetchAll()
 				return nil
 			}
-			// sqliteDb.FetchAll()
 			return nil
 		},
 	}
