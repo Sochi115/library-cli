@@ -1,6 +1,7 @@
 package save
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/Sochi115/library-cli/db"
@@ -12,43 +13,54 @@ var baseApiUrl = "https://openlibrary.org"
 var bookMetaData = BookData{}
 
 func HandleSaveBookByIsbn(isbn string) db.BookEntry {
-	getIsbnData(isbn)
-	authorKeys := getBookDataByWorks(bookMetaData.Key)
-	getAuthors(authorKeys)
+	key := getWorksIdFromIsbn(isbn)
+	getBookDataByWorks(key)
+	getAuthors()
 
+	fmt.Println(bookMetaData)
 	return convertBookDataToBookEntry()
 }
 
-func getIsbnData(isbn string) {
+func HandleSaveBookByWorks(works string) db.BookEntry {
+	worksId := "/books/" + works
+
+	getBookDataByWorks(worksId)
+	getAuthors()
+	fmt.Println(bookMetaData)
+	return convertBookDataToBookEntry()
+}
+
+func getWorksIdFromIsbn(isbn string) string {
+	var data map[string]string
+
 	helper.ApiGetRequest(baseApiUrl+"/isbn/"+isbn+".json",
-		&bookMetaData)
+		&data)
+
+	return data["key"]
 }
 
-func getBookDataByWorks(works string) []map[string]string {
-	responseObject := WorksResponseObject{}
-
-	helper.ApiGetRequest(baseApiUrl+works+".json", &responseObject)
-
-	return responseObject.Authors
+func getBookDataByWorks(works string) {
+	helper.ApiGetRequest(baseApiUrl+works+".json", &bookMetaData)
 }
 
-func getAuthors(authorKeys []map[string]string) {
+func getAuthors() {
 	var authorList []string
-	for _, a := range authorKeys {
-		responseObject := AuthorsResponseObject{}
-		helper.ApiGetRequest(baseApiUrl+a["key"]+".json", &responseObject)
+	for _, a := range bookMetaData.AuthorKeys {
 
-		authorList = append(authorList, responseObject.Name)
+		var data map[string]string
+		helper.ApiGetRequest(baseApiUrl+a.Key+".json", &data)
+
+		authorList = append(authorList, data["name"])
 	}
 
-	bookMetaData.Authors = authorList
+	bookMetaData.AuthorNames = authorList
 }
 
 func convertBookDataToBookEntry() db.BookEntry {
 	return db.BookEntry{
 		Key:           bookMetaData.Key,
 		Title:         bookMetaData.Title,
-		Authors:       strings.Join(bookMetaData.Authors, ", "),
+		Authors:       strings.Join(bookMetaData.AuthorNames, ", "),
 		Isbn13:        strings.Join(bookMetaData.Isbn13, ", "),
 		Isbn10:        strings.Join(bookMetaData.Isbn10, ", "),
 		Publishers:    strings.Join(bookMetaData.Publishers, ", "),

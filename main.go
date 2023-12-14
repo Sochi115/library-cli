@@ -43,6 +43,12 @@ func main() {
 		Usage:   "Specifies author name `AUTHOR`",
 	}
 
+	worksFlag := &cli.StringFlag{
+		Name:    "works",
+		Aliases: []string{"w"},
+		Usage:   "Specifies OpenLibrary's works ID string `WORKS`",
+	}
+
 	app := &cli.App{
 		Name:  "library-cli",
 		Usage: "Cli tool to manage and search for books",
@@ -51,23 +57,29 @@ func main() {
 				Name:  "save",
 				Usage: "Saves book",
 				Flags: []cli.Flag{
-					bookFlag,
+					worksFlag,
 					isbnFlag,
 				},
 				Action: func(ctx *cli.Context) error {
-					book := ctx.String("book")
+					works := ctx.String("works")
 					isbn := ctx.String("isbn")
 
-					if len(book) > 0 {
-						fmt.Println(book)
+					if len(works) > 0 {
+						book := save.HandleSaveBookByWorks(works)
+						sqliteDb.AddBook(book)
+						return nil
 					}
 
 					if len(isbn) > 0 {
 						book := save.HandleSaveBookByIsbn(isbn)
 						sqliteDb.AddBook(book)
+						return nil
 					}
 
-					fmt.Print("Default save")
+					fmt.Fprintln(
+						os.Stderr,
+						"No valid command options detected\nSee `library-cli save --help` for a usage guide",
+					)
 					return nil
 				},
 			},
