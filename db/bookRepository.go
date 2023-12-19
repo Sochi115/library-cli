@@ -43,19 +43,17 @@ func (sqlite *SqliteDb) InitBookTable() {
 	}
 }
 
-func (sqlite *SqliteDb) FetchAll() {
+func (sqlite *SqliteDb) FetchAll() []BookEntry {
 	query := "SELECT * FROM bookEntries"
 
-	rows, err := sqlite.db.Query(query)
+	bookEntries := []BookEntry{}
+
+	err := sqlite.db.Select(&bookEntries, query)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	defer rows.Close()
-
-	for rows.Next() {
-		fmt.Println(rows)
-	}
+	return bookEntries
 }
 
 func (sqlite *SqliteDb) AddBook(bookEntry BookEntry) {

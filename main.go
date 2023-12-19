@@ -8,6 +8,7 @@ import (
 	"github.com/urfave/cli/v2"
 
 	"github.com/Sochi115/library-cli/db"
+	"github.com/Sochi115/library-cli/list"
 	"github.com/Sochi115/library-cli/save"
 	"github.com/Sochi115/library-cli/search"
 )
@@ -152,7 +153,8 @@ func main() {
 		Action: func(ctx *cli.Context) error {
 			fmt.Println("Hello World")
 			if ctx.String("list") == "all" {
-				sqliteDb.FetchAll()
+				books := sqliteDb.FetchAll()
+				list.DisplayAllSavedBooks(books)
 				return nil
 			}
 			return nil
