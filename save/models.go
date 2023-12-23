@@ -13,10 +13,6 @@ type BookData struct {
 	Rating        int                     `json:"-"`
 }
 
-type WorksResponseObject struct {
-	Authors []map[string]string `json:"authors"`
-}
-
 type AuthorsResponseObject struct {
 	Key string `json:"key"`
 }
